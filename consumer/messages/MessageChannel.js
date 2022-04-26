@@ -1,13 +1,13 @@
-const { Channel, connect } = require("amqplib")
+const { connect } = require("amqplib")
 
-let channel = null;
+let _channel = null;
 
-const createMessageChannel = async () => {
+const _createMessageChannel = async () => {
 
     try {
         const connection = await connect(process.env.AMQP_SERVER);
-        this.channel = await connection.createChannel();
-        await channel.assertQueue(process.env.QUEUE_NAME);
+        this._channel = await connection.createChannel();
+        await this._channel.assertQueue(process.env.QUEUE_NAME);
 
     } catch (error) {
         console.log("Connection to RabbitMQ failed");
@@ -18,14 +18,14 @@ const createMessageChannel = async () => {
 
 const consumeMessages = async () => {
 
-    await createMessageChannel();
+    await _createMessageChannel();
 
-    if (this.channel) {
-        this.channel.consume(process.env.QUEUE_NAME, async msg => {
+    if (this._channel) {
+        this._channel.consume(process.env.QUEUE_NAME, async msg => {
             const myObj = JSON.parse(msg.content.toString());
             console.log('Message received');
             console.log(myObj);
-            this.channel.ack(msg);
+            this._channel.ack(msg);
         });
     }
 }
