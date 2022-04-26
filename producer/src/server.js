@@ -6,9 +6,11 @@ const generateBitCoinsData = async () => {
 
     const messageChannel = await createMessageChannel();
 
-    if(messageChannel) {
+    if (messageChannel) {
         let bitCoins = [];
-        bitCoins.push({symbol: 'BTC', value: '197.691,87' });
+        bitCoins.push({
+            symbol: 'BTC', value: Math.random(1000) * 5000
+        });
 
         const name = bitCoins[0].symbol;
         const price = bitCoins[0].value;
